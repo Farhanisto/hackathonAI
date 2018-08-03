@@ -37,7 +37,7 @@ class Register extends Component {
     super(props);
 
     this.state = {
-      username: '',
+      email: '',
       load: false,
       users: createUsers(),
     };
@@ -52,8 +52,8 @@ class Register extends Component {
     }
 
     capture = () => {
-      if (this.state.username === '' || this.state.username === ' ') {
-        alert('Username cannot be empty');
+      if (this.state.email === '' || this.state.email === ' ') {
+        alert('Email cannot be empty');
         return;
       }
 
@@ -63,44 +63,25 @@ class Register extends Component {
 
       const imageSrc = this.webcam.getScreenshot();
       axios.post('https://api.kairos.com/enroll', {
-        gallery_name: 'newCameriaGallery',
+        gallery_name: this.state.email,
         image: imageSrc,
-        subject_id: this.state.username,
+        subject_id: this.state.email,
       }, {
         headers: {
           app_id: '51079399',
           app_key: '141cd3f7d0661f8fc6aebb356ff37723',
         },
       }).then((response) => {
-        this.props.registerUser(response.data);
+        this.props.registerUser(response.data, this.state.email);
         this.setState({
           load: false,
         });
       });
     }
-
-    resetGallery = () => {
-      this.setState({
-        load: true,
-      });
-      axios.post('https://api.kairos.com/gallery/remove', {
-        gallery_name: '', //  TODO create a loop to delete the images
-      }, {
-        headers: {
-          app_id: '51079399',
-          app_key: '141cd3f7d0661f8fc6aebb356ff37723',
-        },
-      }).then(() => {
-        this.setState({
-          load: false,
-        });
-      });
-    }
-
 
     handleUsername = (value) => {
       this.setState({
-        username: value.firstName,
+        email: value.value,
       });
     }
 
@@ -140,18 +121,10 @@ class Register extends Component {
                   className='register-button'
                   onClick={this.capture}
                   label='REGISTER'
-                  primary
-                  style={{ margin: 16 }}
-                />
-                <RaisedButton
-                  className='register-button'
-                  onClick={this.resetGallery}
-                  label='RESET GALLERY'
-                  primary
+                  success
                   style={{ margin: 16 }}
                 />
                 <UserRegister detect={this.props.regData} />
-                <button onClick={this.getAllImages}> retrieve </button>
               </div>
             </Col>
           </Row>

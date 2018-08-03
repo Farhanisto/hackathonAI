@@ -10,8 +10,11 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import { getAllImagesAction } from '../actions';
+import { ENGINE_METHOD_DIGESTS } from 'constants';
 
 const styles = theme => ({
   root: {
@@ -30,11 +33,19 @@ class AccessLogs extends Component {
 
     this.state = {
       logs: [],
+      load: false,
     };
   }
 
   componentDidMount() {
     this.getAllImages();
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      logs: nextProps.getImages && nextProps.getImages,
+    });
   }
 
     setRef = (webcam) => {
@@ -58,6 +69,39 @@ class AccessLogs extends Component {
       });
     }
 
+    resetGallery = (value) => {
+      this.setState({
+        load: true,
+      });
+      axios.post('https://api.kairos.com/gallery/remove', {
+        gallery_name: value,
+      }, {
+        headers: {
+          app_id: '51079399',
+          app_key: '141cd3f7d0661f8fc6aebb356ff37723',
+        },
+      }).then(() => {
+        this.setState({
+          load: false,
+        });
+      });
+    }
+
+    deleteImage = (value) => {
+      console.log(this.state.load);
+      this.resetGallery(value);
+    }
+
+    /* eslint-disable */
+    formartName = (name) => {
+        const firstName = name.split('.')[0];
+        let secondName = [];
+        if(name.split('.')[1]) {
+            secondName = name.split('.')[1].split('@')[0];
+        }
+        return [firstName, secondName];
+    }
+
     render() {
       const { classes } = this.props;
       const { logs } = this.state;
@@ -66,23 +110,27 @@ class AccessLogs extends Component {
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
-                <TableCell>Dessert (100g serving)</TableCell>
-                <TableCell numeric>Calories</TableCell>
-                <TableCell numeric>Fat (g)</TableCell>
-                <TableCell numeric>Carbs (g)</TableCell>
-                <TableCell numeric>Protein (g)</TableCell>
+                <TableCell>First Name</TableCell>
+                <TableCell>Second Name</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {logs.gallery_ids && logs.gallery_ids.map(n => (
-                <TableRow key={n.id}>
+              {logs.gallery_ids && logs.gallery_ids.map((n, index) => (
+                <TableRow key={index}>
                   <TableCell component='th' scope='row'>
-                    {n.name}
+                    {this.formartName(n)[0]}
                   </TableCell>
-                  <TableCell numeric>{n.calories}</TableCell>
-                  <TableCell numeric>{n.fat}</TableCell>
-                  <TableCell numeric>{n.carbs}</TableCell>
-                  <TableCell numeric>{n.protein}</TableCell>
+                  <TableCell>{this.formartName(n)[1]}</TableCell>
+                  <TableCell>{n}</TableCell>
+                  <TableCell>
+                    <Button
+                        onClick={ (n) => this.resetGallery(n) }
+                    >
+                        <DeleteIcon />
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -95,11 +143,13 @@ class AccessLogs extends Component {
 AccessLogs.propTypes = {
   getAllImagesAction: func.isRequired,
   classes: shape({}).isRequired,
+  getImages: shape({}).isRequired,
 };
 
 function mapStateToProps(state) {
+    console.log(state);
   return {
-    getImages: state.images,
+    getImages: state.registeredUsers,
   };
 }
 

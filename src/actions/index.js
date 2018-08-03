@@ -5,10 +5,11 @@ export const ALL_IMAGES = 'all_images';
 
 
 // function to register user
-export function registerUser(data) {
+export function registerUser(data, email) {
   return {
     type: REGISTER_USER,
     payload: data,
+    user: email,
   };
 }
 

@@ -8,12 +8,14 @@ export default (state = {}, action) => {
       name: '',
       faceID: '',
       message: '',
+      email: '',
     };
 
     if (action.payload.Errors) {
       finalData.message = 'error';
     } else if (action.payload.images['0'].transaction.status === 'success') {
       finalData.message = 'success';
+      finalData.email = action.user;
     } else if (action.payload.images['0'].transaction.status === 'failure') {
       finalData.message = 'failure';
     }

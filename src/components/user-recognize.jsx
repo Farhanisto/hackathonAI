@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 /* eslint-disable */
 class UserRecognize extends Component {
   render() {
 		if (this.props.detect.message === "error") {
-			return (<p><b>Face not in the frame or gallery is empty.</b> Please try again by occupying the frame and if the error still persists, try registering.</p>);
+			return (<p>There a problem in recognizing your face, please try again!</p>);
 		} else if (this.props.detect.message === "failure") {
-			return (<p><b>Face not in gallery.</b> Please register with us <Link to={"/register"}>here</Link></p>);
+			return (<p>Access denied, please contact admin</p>);
 		} else if (this.props.detect.message === "success") {
 			return (
 				<div>
@@ -15,7 +14,7 @@ class UserRecognize extends Component {
 					<p><b>Face ID: </b>{this.props.detect.faceID}</p>
 				</div>);
 		} 
-			return <p><b>RECOGNITION STATUS</b> WILL BE DISPLAYED HERE</p>;
+			return <p>...</p>;
 		
 	}
 }

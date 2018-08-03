@@ -1,24 +1,21 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 /* eslint-disable */
 class UserRegister extends Component {
   render() {
 		if (this.props.detect.message === "error") {
-			return (<p><b>Face not in the frame.</b> Please try again by occupying the frame.</p>);
+			return (<p>There a problem in recognizing your face, please try again!</p>);
 		} else if (this.props.detect.message === "failure") {
-			return (<p><b>Registration failed</b><br />Please try again.</p>);
+			return (<p>Access denied, please contact admin</p>);
 		} else if (this.props.detect.message === "success") {
 			return (
 				<div>
 					<p>
                         User successfully <b>registered</b>
-						<br />
-                        Go ahead and recognize yourself <Link to={"/recognize"}>here.</Link>
 					</p>
 				</div>);
 		} 
-			return <p><b>REGISTRATION STATUS</b> WILL APPEAR HERE. <br />Resetting the gallery would remove all the faces from the database. <b>Use it with caution.</b></p>;
+			return <p>...</p>;
 		
 	}
 }

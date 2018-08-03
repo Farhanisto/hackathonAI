@@ -54,7 +54,7 @@ class Recognize extends Component {
       const imageSrc = this.webcam.getScreenshot();
 
       axios.post('https://api.kairos.com/recognize', {
-        gallery_name: 'newCameriaGallery',
+        gallery_name: 'Andela',
         image: imageSrc,
       }, {
         headers: {
@@ -78,7 +78,7 @@ class Recognize extends Component {
           <Row>
             <Col xs={12} md={4} mdOffset={4}>
               <div style={{ textAlign: 'center' }}>
-                <h3>DETECT FACE</h3>
+                <h3>Please position your face in the middle of the frame, for better detection</h3>
                 <Webcam
                   audio={false}
                   height={320}
@@ -96,7 +96,7 @@ class Recognize extends Component {
                   style={(this.state.load === false) ? style.hide : style.refresh}
                 />
                 <br />
-                <RaisedButton onClick={this.capture} label='DETECT' primary style={{ margin: 16 }} />
+                <RaisedButton onClick={this.capture} label='DETECT' style={{ margin: 16 }} />
                 <UserRecognize detect={this.props.detData} />
               </div>
             </Col>

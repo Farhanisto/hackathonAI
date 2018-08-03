@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 /* eslint-disable */
 class UserData extends Component {
@@ -8,19 +7,19 @@ class UserData extends Component {
 
     if (!this.props.user.data) {
       return (
-        <p><b>Recognition status</b> will be displayed here</p>
+        <p><b>...</b></p>
       );
     }
 
     if (this.props.user.data.Errors) {
       return (
-  <p><b>Error: </b>No face found. Please place your face in the frame.</p>
+        <p><b>Error: </b>No records found, please try again!</p>
       );
     }
 
     if (this.props.user.data.images['0'].transaction.status === 'failure') {
       return (
-        <p>Recognition <b>failed</b><br />Please register with us <Link to="/register">here</Link></p>
+        <p>Access denied <b>failed</b><br />Please contact admin</p>
       );
     }
 

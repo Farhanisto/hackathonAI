@@ -14,7 +14,6 @@ import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import { getAllImagesAction } from '../actions';
-import { ENGINE_METHOD_DIGESTS } from 'constants';
 
 const styles = theme => ({
   root: {
@@ -53,10 +52,8 @@ class AccessLogs extends Component {
     }
 
     getAllImages = () => {
-      axios.post('https://api.kairos.com/gallery/list_all', {
-        gallery_name: this.state.username,
-        image: '',
-        subject_id: this.state.username,
+      axios.post('https://api.kairos.com/gallery/view', {
+        gallery_name: 'Andela',
       }, {
         headers: {
           app_id: '51079399',
@@ -74,15 +71,19 @@ class AccessLogs extends Component {
         load: true,
       });
       axios.post('https://api.kairos.com/gallery/remove', {
-        gallery_name: value,
+        gallery_name: 'Andela',
+        subject_id: value,
       }, {
         headers: {
           app_id: '51079399',
           app_key: '141cd3f7d0661f8fc6aebb356ff37723',
         },
       }).then(() => {
+        const initialState = this.state.logs;
+
         this.setState({
           load: false,
+          logs: initialState.filter(subjectId => this.state.logs.subject_id !== subjectId),
         });
       });
     }
@@ -117,7 +118,7 @@ class AccessLogs extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {logs.gallery_ids && logs.gallery_ids.map((n, index) => (
+              {logs.subject_ids && logs.subject_ids.map((n, index) => (
                 <TableRow key={index}>
                   <TableCell component='th' scope='row'>
                     {this.formartName(n)[0]}
@@ -147,7 +148,6 @@ AccessLogs.propTypes = {
 };
 
 function mapStateToProps(state) {
-    console.log(state);
   return {
     getImages: state.registeredUsers,
   };

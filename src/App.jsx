@@ -166,7 +166,7 @@ class PersistentDrawer extends React.Component {
             <ListItem button>
               <ImageIcon />
               <Link
-                to='/register'
+                to='/logs'
                 className='link'
               >
                 <ListItemText inset primary='View Access Logs' />
@@ -216,7 +216,7 @@ class PersistentDrawer extends React.Component {
               <Route path='/recognize' render={props => <Recognize {...props} />} />
               <Route path='/register' render={props => <Register {...props} />} />
               <Route path='/logs' render={props => <AccessLogs {...props} />} />
-              <Route path='**' render={props => <PersistentDrawer {...props} />} />
+              <Route path='**' render={props => <Register {...props} />} />
             </Switch>
           </main>
           {after}

@@ -63,7 +63,7 @@ class Register extends Component {
 
       const imageSrc = this.webcam.getScreenshot();
       axios.post('https://api.kairos.com/enroll', {
-        gallery_name: this.state.email,
+        gallery_name: 'Andela',
         image: imageSrc,
         subject_id: this.state.email,
       }, {
@@ -72,6 +72,7 @@ class Register extends Component {
           app_key: '141cd3f7d0661f8fc6aebb356ff37723',
         },
       }).then((response) => {
+        console.log(response);
         this.props.registerUser(response.data, this.state.email);
         this.setState({
           load: false,
@@ -91,7 +92,7 @@ class Register extends Component {
           <Row>
             <Col xs={12} md={4} mdOffset={4}>
               <div style={{ textAlign: 'center' }}>
-                <h3>REGISTER FACE</h3>
+                <h3>Kindly register below</h3>
                 <Webcam
                   audio={false}
                   height={320}
